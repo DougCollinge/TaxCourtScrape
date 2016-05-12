@@ -31,45 +31,16 @@ class TCCScraper :
         params = {'hearingLoc':50, 'dateRange':'all', 'form_submit':'Next'}
         r = requests.post(self.tccHearingsUrl,params)
         soup = BeautifulSoup(r.text,"html.parser")
-        # print( soup.prettify() )
         tb = soup.table
-        # print(tb)
         if tb != None :
             for tr in tb.find_all("tr"):
-                # print(tr)
                 tds = tr.find_all("td")
-                # print("Len(tds):",len(tds))
                 if len(tds) >= 4 :
-                    # print(tds)
-                    # hearings.append( {'date':week, 'appellant':tds[1].string, 'filenumber':tds[2].string, 'language':tds[3].string} )
                     hearings.append( {'Hearing Date':tds[0].string, 'Appellant Name:':tds[1].string, 'File No':tds[2].string, 'Language':tds[3].string} )
-                    # hearings.append(tds[2].string)
             if limitcount != 0 :
                 hearings = hearings[:limitcount]
         return hearings
 
-    # def get_hearings(self):
-    #     hearings = []
-    #     weeks = self.get_weeks()
-    #     for week in weeks :
-    #         params = {'hearingLoc': 50, 'dateRange': week, 'form_submit':'Next'}
-    #         # print(params)
-    #
-    #         r = requests.post(self.tccHearingsUrl, params)
-    #         soup = BeautifulSoup(r.text)
-    #         # print(soup.prettify())
-    #         tb = soup.table
-    #         # print(tb)
-    #         if tb != None :
-    #             for tr in tb.find_all("tr"):
-    #                 # print(tr)
-    #                 tds = tr.find_all("td")
-    #                 # print("Len(tds):",len(tds))
-    #                 if len(tds) >= 4 :
-    #                     # print(tds)
-    #                     # hearings.append( {'date':week, 'appellant':tds[1].string, 'filenumber':tds[2].string, 'language':tds[3].string} )
-    #                     hearings.append(tds[2].string)
-    #     return hearings
 
     def get_data_headings(self):
         return self.data_headings
@@ -82,7 +53,6 @@ class TCCScraper :
         appeal_details = soup.find("table",summary="Appeal Details")
 
         for tr in appeal_details.children:
-            # if tr.name != None:
             if tr.name == "tr":
                 if tr.td and tr.th:
                     data[tr.th.string] = tr.td.string
@@ -105,5 +75,4 @@ class TCCScraper :
             filenumber = hearing['File No']
             moredata = self.get_hearing_data(filenumber)
             hearing.update(moredata)
-            # print(hearing)
         return table
