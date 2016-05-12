@@ -28,8 +28,4 @@ with open(filename, 'w') as csvfile:
 
     print("Number of files found:",len(table))
     writer.writerows(table)
-
-    # for hearing in table :
-    #     writer.writerow(hearing)
-
     csvfile.close()
