@@ -26,7 +26,6 @@ class TCCScraper :
         return weeks
 
     def get_hearings(self):
-        limitcount = 0  # For debugging. Set to zero for no limit.
         hearings = []
         params = {'hearingLoc':50, 'dateRange':'all', 'form_submit':'Next'}
         r = requests.post(self.tccHearingsUrl,params)
@@ -37,8 +36,6 @@ class TCCScraper :
                 tds = tr.find_all("td")
                 if len(tds) >= 4 :
                     hearings.append( {'Hearing Date':tds[0].string, 'Appellant Name:':tds[1].string, 'File No':tds[2].string, 'Language':tds[3].string} )
-            if limitcount != 0 :
-                hearings = hearings[:limitcount]
         return hearings
 
 
@@ -65,8 +62,11 @@ class TCCScraper :
 
         return data
 
-    def get_hearings_table(self,progress):
+    def get_hearings_table(self,progress,limitcount=0):
         table = self.get_hearings()
+        if limitcount != 0:
+            table = table[:limitcount]
+
         progressmax = len(table)
         progresscount = 0
         for hearing in table:
