@@ -9,4 +9,7 @@ tcc = TCCScraper()
 # data = tcc.get_hearing_data("2012-4043(IT)G")
 # print(data)
 
-tcc.get_hearings_table()
+def progress(max,count) :
+    print( 'Progress: {}/{} '.format(count,max) )
+
+tcc.get_hearings_table(progress,limitcount=2)

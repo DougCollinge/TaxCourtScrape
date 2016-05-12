@@ -62,7 +62,7 @@ class TCCScraper :
 
         return data
 
-    def get_hearings_table(self,progress,limitcount=0):
+    def get_hearings_table(self,progress=None,limitcount=0):
         table = self.get_hearings()
         if limitcount != 0:
             table = table[:limitcount]
@@ -71,7 +71,8 @@ class TCCScraper :
         progresscount = 0
         for hearing in table:
             progresscount+=1
-            progress(progressmax,progresscount)
+            if progress is not None :
+                progress(progressmax,progresscount)
             filenumber = hearing['File No']
             moredata = self.get_hearing_data(filenumber)
             hearing.update(moredata)
