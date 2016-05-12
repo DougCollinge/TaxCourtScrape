@@ -6,5 +6,7 @@ tcc = TCCScraper()
 #     # print(repr(hearing['date']),',',repr(hearing['appellant']),',',repr(hearing['filenumber']),',',repr(hearing['language']))
 #     print( hearing )
 
-data = tcc.get_hearing_data("2012-4043(IT)G")
-print(data)
+# data = tcc.get_hearing_data("2012-4043(IT)G")
+# print(data)
+
+tcc.get_hearings_table()

@@ -1,28 +1,35 @@
-import requests
 import csv
-
+from datetime import date
 from TCCScraper import TCCScraper
+
 tcc = TCCScraper()
 # docket = ['2012-4043(IT)G','2013-3987(IT)G','2015-2963(GST)I']
 # docket = ['2015-4070(IT)APP']
 # docket = ['2015-3296(GST)I']
 
+def progress(max,count) :
+    print( 'Progress: {}/{} '.format(count,max) )
+
 if 'docket' not in vars():
     print("Fetching all document numbers...")
-    docket = tcc.get_hearings()
+    table = tcc.get_hearings_table(progress)
 
 fieldnames = tcc.get_data_headings()
 
-with open('TCCHearings.csv', 'w') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+datestr = date.today().isoformat()
+filename = 'TCCHearings' + datestr + '.csv'
+
+dial = csv.excel
+dial.lineterminator = '\n'
+
+with open(filename, 'w') as csvfile:
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames, dialect=dial)
     writer.writeheader()
 
-    counter = 1
-    print("File numbers found:",len(docket))
-    for file_number in docket :
-        print(counter,". Fetching data for file number:",file_number)
-        counter += 1
-        hearing_data = tcc.get_hearing_data(file_number)
-        writer.writerow(hearing_data)
+    print("Number of files found:",len(table))
+    writer.writerows(table)
+
+    # for hearing in table :
+    #     writer.writerow(hearing)
 
     csvfile.close()
