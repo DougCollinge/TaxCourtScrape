@@ -16,7 +16,7 @@
 
 import csv
 oldtable = []
-with open('TCCHearings2016-05-11.csv') as file :
+with open('TCCHearings.csv') as file :
     rdr = csv.DictReader(file)
     for row in rdr :
         oldtable.append(row)
